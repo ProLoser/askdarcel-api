@@ -43,17 +43,10 @@ class ChangeRequestsController < ApplicationController
   end
 
   def index
-    if !admin_signed_in?
-      render status: :unauthorized
-    else
       render json: ChangeRequestsWithResourcePresenter.present(changerequest.pending)
-    end
   end
 
   def approve
-    if !admin_signed_in?
-      render status: :unauthorized
-    else
       change_request = ChangeRequest.find params[:change_request_id]
       if change_request.pending?
 
@@ -71,13 +64,9 @@ class ChangeRequestsController < ApplicationController
       else
         render status: :precondition_failed
       end
-    end
   end
 
   def pending_count
-    if !admin_signed_in?
-      render status: :unauthorized
-    else
       render json: {
                     address_cr: ChangeRequest.all.where('type' => 'AddressChangeRequest').where('status' => 0).count,
                     note_cr: ChangeRequest.all.where('type' => 'NoteChangeRequest').where('status' => 0).count,
@@ -88,13 +77,9 @@ class ChangeRequestsController < ApplicationController
                     new_resources: Resource.all.where('status' => 0).count,
                     new_services: Service.all.where('status' => 0).count
                     }
-    end
   end
 
   def activity_by_timeframe
-    if !admin_signed_in?
-      render status: :unauthorized
-    else
       start_date = params[:start_date].to_s
       end_date = params[:end_date].to_s
       render json: {
@@ -119,7 +104,6 @@ class ChangeRequestsController < ApplicationController
                 new_services: Service.all.where("DATE(updated_at) > ?", start_date.to_datetime).where("DATE(updated_at) < ?", end_date.to_datetime).where("status" => 1).count
           }
       }
-    end
   end
 
   def replace_field_changes(change_request)
@@ -130,9 +114,6 @@ class ChangeRequestsController < ApplicationController
   end
 
   def reject
-    if !admin_signed_in?
-      render status: :unauthorized
-    else
       change_request = ChangeRequest.find params[:change_request_id]
       if change_request.pending?
         change_request.rejected!
@@ -142,7 +123,6 @@ class ChangeRequestsController < ApplicationController
       else
         render status: :precondition_failed
       end
-    end
   end
 
   private
