@@ -1,5 +1,4 @@
 source 'https://rubygems.org'
-
 # Rails/Framework
 gem 'rails', '~> 5.0.0'
 gem 'jsonite', '0.0.3'
@@ -33,6 +32,7 @@ group :development, :test do
   # debugger console
   gem 'byebug'
   gem 'bullet'
+  gem 'dotenv-rails'
   gem 'factory_girl_rails', '~> 4.7'
   gem 'rspec-rails', '~> 3.4'
   gem 'spring'

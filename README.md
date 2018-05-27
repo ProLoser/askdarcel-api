@@ -2,6 +2,12 @@
 
 This project exposes the API endpoints for supporting the askdarcel-web project, which is built using a Ruby on Rails API Server
 
+## Algolia configuration (Required for both set up options)
+
+1. Set up your Algolia search index
+  - Create a `.env` file in the root of your `askdarcel-api` directory
+  - Populate that file with the backend environment variables found [here](https://sheltertech.quip.com/2ft5Ax19Kc6h)
+
 ## Docker-based Development Set-up Instructions (Recommended)
 
 ### Requirements
@@ -66,7 +72,6 @@ After cloning the repository and `cd`ing into the workspace:
   - `bundle install`
   If encounter "command not found" error, run
   -`source ~/.bash_profile`
-
 4. Set up the development database and load dummy data.
   - `rake db:create:all`
   - `rake db:migrate`

@@ -27,16 +27,14 @@ class Service < ActiveRecord::Base
     # and staging servers use the same RAILS_ENV.
     algoliasearch index_name: "#{Rails.configuration.x.algolia.index_prefix}_services_search", id: :algolia_id do # rubocop:disable Metrics/BlockLength,Metrics/LineLength
       add_attribute :status
+
       add_attribute :_geoloc do
         if addresses.any?
           addresses.map do |a|
-            { lat: a.address_latitude, lng: a.address_longitude } if a.address_latitude.present? & a.address_longitude.present?
+            { lat: BigDecimal(a.address_latitude), lng: BigDecimal(a.address_longitude) } if a.address_latitude.present? & a.address_longitude.present?
           end
         elsif resource.address.present? & resource.address_latitude.present? & resource.address_longitude.present?
-          puts 'resource:', resource.id
-          puts 'lat:', resource.address_latitude
-          puts 'lng:', resource.address_longitude
-          { lat: resource.address_latitude, lng: resource.address_longitude }
+          { lat: BigDecimal(resource.address_latitude), lng: BigDecimal(resource.address_longitude) }
         end
       end
 
